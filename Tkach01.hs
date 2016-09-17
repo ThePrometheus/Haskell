@@ -1,7 +1,7 @@
 {-# OPTIONS_GHC -Wall #-}
 
 module Tkach01 where
-import Data.List as List
+import  qualified Data.List as List
 import qualified Data.Set as Set
 -- Задача 1 -----------------------------------------
 
@@ -26,19 +26,17 @@ oddEven (x:(y:ys)) = [y,x]++oddEven ys
 
 position :: Eq a => a -> [a] -> Int
 position _ [] = 0
-position needle (x:xs) | x == needle = 1
-				       | x /= needle = 1 + positionI 1 (length xs) (needle) xs
+position elem [] = 0
+position elem (x:xs) | x == elem = 1
+				       | x /= elem = 1 + nextPosition 1 (length xs) (elem) xs
 				  
-positionI :: Eq a => Int -> Int -> a -> [a] -> Int
-positionI _ _ _ [] = 0
-positionI iteration arrayLength needle (x:xs) | x == needle = 1
-					                          | iteration == arrayLength = -(arrayLength)
-				                              | x /= needle = 1 + positionI (iteration + 1) arrayLength needle xs
+
 -- Задача 4 -----------------------------------------
 
-frequency :: Eq a => [a] -> [(Int, a)]
+
+frequency :: Eq a => [a] -> [(a, Int)]
 frequency [] = []
-frequency inputList = [(count currentElement inputList, currentElement) | currentElement <- (List.nub inputList)]
+frequency xl = [(elem, count elem xl) | elem <- (List.nub xl)]
 
 
                      
@@ -50,19 +48,27 @@ set [] = []
 
 -- Задача 6 -----------------------------------------
 
-unionT :: Eq a => [a] -> [a] -> [a]
-unionT [] [] = []
-unionT [] ys = List.nub ys
-unionT  xs [] = List.nub xs
-unionT xs ys = List.nub (xs ++ ys)
+union :: Eq a => [a] -> [a] -> [a]
+union [] [] = []
+union [] ys = List.nub ys
+union  xs [] = List.nub xs
+union xs ys = List.nub (xs ++ ys)
 
 -- Задача 7 -----------------------------------------
 
-intersectionT :: Eq a => [a] -> [a] -> [a]
-intersectionT xl yl = [el | el <- xl, el`elem` yl]
+intersection :: Eq a => [a] -> [a] -> [a]
+intersection xl yl = [el | el <- xl, el`elem` yl]
+----------- SPECIAL  HELPER FUNCTION ------
 
-
+nextPosition :: Eq a => Int -> Int -> a -> [a] -> Int
+nextPosition _ _ _ [] = 0
+nextPosition iteration arrayLength needle (x:xs) | x == needle = 1
+					                             | iteration == arrayLength = -(arrayLength)
+				                                 | x /= needle = 1 + nextPosition (iteration + 1) arrayLength needle xs
 count :: Eq a => a -> [a] -> Int
 count n [] = 0
 count n (x:xs) | n == x = 1 + count n xs
-           | otherwise = count n xs
+               | otherwise = count n xs
+
+
+
