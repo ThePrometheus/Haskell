@@ -28,7 +28,7 @@ position :: Eq a => a -> [a] -> Int
 position _ [] = 0
 position elem [] = 0
 position elem (x:xs) | x == elem = 1
-				       | x /= elem = 1 + nextPosition 1 (length xs) (elem) xs
+				     | x /= elem = 1 + nextPosition 1 (length xs) (elem) xs
 				  
 
 -- Задача 4 -----------------------------------------

@@ -42,7 +42,7 @@ map2 f (x:xs) (y:ys) = f x y : map2 f xs ys
 -- Задача 7  -----------------------------------------
 
 factorialsM :: [Integer]
-factorialsM = 1 : map2 (*) factorialsM [1..]
+factorialsM = 1 : map2 (*) factorialsM [1..5]
 
 -- Задача 8 -----------------------------------------
 
